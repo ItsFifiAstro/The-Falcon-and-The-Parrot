@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Falcon & The Parrot — A Philosophy of Silence and Freedom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --ink:#0f0e0c;
+  --paper:#f7f3ec;
+  --parchment:#ede5d4;
+  --gold:#8b6914;
+  --gold2:#c49a2a;
+  --gold-light:#f0d98a;
+  --rust:#7a3b1e;
+  --sage:#3d5a47;
+  --ash:#4a4540;
+  --muted:#7a7268;
+  --border:#d4c9b0;
+  --falcon:#1a2332;
+  --parrot:#3d1a08;
+  --white:#fdfcf9;
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Lora',Georgia,serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.8;
+  overflow-x:hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  pointer-events:none;z-index:0;
+  opacity:0.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:256px;
+}
+
+/* ── PROGRESS BAR ── */
+#progress{
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+  width:0%;z-index:1000;transition:width 0.1s linear;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:18px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(247,243,236,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  transition:all 0.3s;
+}
+.nav-brand{
+  font-family:'Playfair Display',serif;
+  font-size:0.95rem;font-weight:700;
+  letter-spacing:0.05em;color:var(--ink);
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:28px;}
+.nav-links a{
+  font-family:'Crimson Pro',serif;
+  font-size:0.9rem;color:var(--muted);
+  text-decoration:none;letter-spacing:0.04em;
+  transition:color 0.2s;
+}
+.nav-links a:hover{color:var(--gold);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:120px 40px 80px;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-birds{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+  opacity:0.04;
+  font-size:clamp(200px,30vw,380px);
+  letter-spacing:-0.05em;
+  user-select:none;
+}
+
+.hero-eyebrow{
+  font-family:'Crimson Pro',serif;
+  font-size:0.78rem;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:24px;
+  opacity:0;animation:fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,8vw,7rem);
+  font-weight:900;line-height:1.0;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:16px;
+  opacity:0;animation:fadeUp 0.9s 0.4s ease both;
+}
+
+.hero-title em{
+  font-style:italic;color:var(--gold);
+}
+
+.hero-subtitle{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(1.1rem,2.5vw,1.6rem);
+  color:var(--muted);
+  margin-bottom:48px;
+  opacity:0;animation:fadeUp 0.9s 0.6s ease both;
+}
+
+.hero-opening{
+  max-width:580px;
+  font-family:'Crimson Pro',serif;
+  font-size:1.15rem;line-height:1.9;
+  color:var(--ash);
+  opacity:0;animation:fadeUp 1s 0.8s ease both;
+}
+
+.scroll-indicator{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s 1.4s ease both;
+}
+.scroll-line{
+  width:1px;height:48px;
+  background:linear-gradient(to bottom,transparent,var(--gold));
+  animation:scrollPulse 2s infinite;
+}
+.scroll-text{
+  font-family:'Crimson Pro',serif;
+  font-size:0.7rem;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--muted);
+}
+
+/* ── MAIN CONTENT ── */
+.content{position:relative;z-index:1;}
+
+/* ── SECTION ── */
+section{
+  max-width:800px;margin:0 auto;
+  padding:80px 40px;
+}
+
+section.wide{max-width:1100px;}
+section.full{max-width:none;padding:0;}
+
+/* ── DIVIDER ── */
+.divider{
+  display:flex;align-items:center;
+  gap:16px;padding:0 40px;
+  max-width:800px;margin:0 auto;
+}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.divider-glyph{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;color:var(--gold);
+  flex-shrink:0;
+}
+
+/* ── THE CORE METAPHOR ── */
+.duality{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;margin:48px 0;
+  border:1px solid var(--border);
+  overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,0.08);
+}
+
+.duality-side{
+  padding:48px 40px;
+  position:relative;overflow:hidden;
+}
+
+.duality-side.falcon{
+  background:var(--falcon);
+  color:var(--parchment);
+}
+.duality-side.parrot{
+  background:var(--parrot);
+  color:var(--parchment);
+  border-left:1px solid rgba(255,255,255,0.06);
+}
+
+.duality-bird{
+  font-size:3.5rem;margin-bottom:20px;
+  display:block;
+  filter:grayscale(0.3);
+}
+
+.duality-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem;font-weight:700;
+  margin-bottom:6px;
+  color:var(--gold-light);
+}
+
+.duality-tagline{
+  font-family:'Crimson Pro',serif;
+  font-style:italic;
+  font-size:1rem;
+  opacity:0.6;margin-bottom:28px;
+}
+
+.duality-traits{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.duality-traits li{
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;
+  display:flex;align-items:flex-start;gap:10px;
+  line-height:1.5;
+  opacity:0.85;
+}
+.duality-traits li::before{
+  content:'—';
+  color:var(--gold2);
+  flex-shrink:0;
+  margin-top:1px;
+}
+
+/* ── PULL QUOTE ── */
+.pullquote{
+  margin:64px 0;padding:40px 48px;
+  border-left:3px solid var(--gold);
+  background:linear-gradient(135deg,rgba(139,105,20,0.04),transparent);
+  position:relative;
+}
+.pullquote::before{
+  content:'\201C';
+  position:absolute;top:-20px;left:32px;
+  font-family:'Playfair Display',serif;
+  font-size:7rem;line-height:1;
+  color:var(--gold);opacity:0.15;
+  pointer-events:none;
+}
+.pullquote p{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(1.2rem,2.5vw,1.6rem);
+  line-height:1.6;color:var(--ink);
+  position:relative;z-index:1;
+}
+.pullquote cite{
+  display:block;margin-top:16px;
+  font-family:'Crimson Pro',serif;
+  font-size:0.85rem;letter-spacing:0.1em;
+  color:var(--gold);font-style:normal;
+}
+
+/* ── SECTION HEADINGS ── */
+.section-label{
+  font-family:'Crimson Pro',serif;
+  font-size:0.72rem;letter-spacing:0.22em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:12px;
+}
+.section-label::before{content:'';width:24px;height:1px;background:var(--gold);}
+
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,3.5vw,2.6rem);
+  font-weight:700;line-height:1.2;
+  letter-spacing:-0.01em;
+  color:var(--ink);margin-bottom:24px;
+}
+
+h3{
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:600;
+  color:var(--ink);margin-bottom:12px;
+  margin-top:40px;
+}
+
+p{
+  font-size:1.05rem;color:var(--ash);
+  margin-bottom:20px;line-height:1.85;
+}
+
+strong{color:var(--ink);font-weight:600;}
+
+/* ── COMPARISON TABLE ── */
+.comparison{
+  margin:40px 0;
+  border:1px solid var(--border);
+  overflow:hidden;
+}
+.comparison-header{
+  display:grid;grid-template-columns:1fr 1fr;
+}
+.comp-head{
+  padding:16px 28px;
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;
+  letter-spacing:0.02em;
+}
+.comp-head.f{background:var(--falcon);color:var(--gold-light);}
+.comp-head.p{background:var(--parrot);color:var(--gold-light);}
+
+.comparison-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--border);
+}
+.comparison-row:nth-child(even) .comp-cell{background:rgba(0,0,0,0.015);}
+.comp-cell{
+  padding:14px 28px;
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;line-height:1.5;
+  color:var(--ash);
+}
+.comp-cell:first-child{border-right:1px solid var(--border);}
+
+/* ── PHILOSOPHY CARDS ── */
+.phil-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:24px;
+  margin:40px 0;
+}
+
+.phil-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  padding:32px 28px;
+  position:relative;
+  overflow:hidden;
+  transition:transform 0.25s,box-shadow 0.25s;
+}
+.phil-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 48px rgba(0,0,0,0.08);
+}
+.phil-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));
+}
+.phil-tradition{
+  font-family:'Crimson Pro',serif;
+  font-size:0.7rem;letter-spacing:0.2em;
+  text-transform:uppercase;color:var(--gold);
+  margin-bottom:8px;
+}
+.phil-card h3{
+  font-size:1.15rem;margin-top:0;margin-bottom:8px;
+}
+.phil-quote{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:0.92rem;line-height:1.6;
+  color:var(--muted);
+  margin-bottom:16px;
+  padding-left:12px;
+  border-left:2px solid var(--border);
+}
+.phil-card p{font-size:0.92rem;margin-bottom:0;}
+
+/* ── NEUROSCIENCE BOX ── */
+.science-box{
+  background:var(--ink);
+  color:var(--parchment);
+  padding:48px;
+  margin:48px 0;
+  position:relative;overflow:hidden;
+}
+.science-box::before{
+  content:'';
+  position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(139,105,20,0.15),transparent 70%);
+  pointer-events:none;
+}
+.science-box .section-label{color:var(--gold2);}
+.science-box .section-label::before{background:var(--gold2);}
+.science-box h2{color:var(--parchment);}
+.science-box p{color:rgba(237,229,212,0.8);}
+.science-highlight{
+  display:inline-block;
+  background:rgba(139,105,20,0.2);
+  border:1px solid rgba(196,154,42,0.3);
+  border-radius:4px;
+  padding:2px 8px;
+  color:var(--gold-light);
+  font-weight:600;
+}
+
+/* ── FLOW DIAGRAMS ── */
+.flow{margin:32px 0;}
+.flow-title{
+  font-family:'Playfair Display',serif;
+  font-size:0.9rem;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:20px;
+}
+.flow-steps{display:flex;flex-direction:column;gap:0;}
+.flow-step{
+  display:flex;align-items:flex-start;gap:20px;
+  padding:14px 0;
+  border-bottom:1px dashed var(--border);
+  position:relative;
+}
+.flow-step:last-child{border-bottom:none;}
+.flow-num{
+  width:28px;height:28px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:0.75rem;font-weight:700;
+  flex-shrink:0;margin-top:2px;
+}
+.flow-num.fn{background:rgba(26,35,50,0.1);color:var(--falcon);}
+.flow-num.fp{background:rgba(61,26,8,0.1);color:var(--parrot);}
+.flow-arrow{
+  position:absolute;left:13px;top:42px;
+  width:1px;height:calc(100% - 14px);
+  background:var(--border);
+}
+.flow-step:last-child .flow-arrow{display:none;}
+.flow-text{
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;line-height:1.5;
+  color:var(--ash);padding-top:4px;
+}
+.flow-text strong{color:var(--ink);}
+.flow-result{
+  margin-top:16px;padding:14px 20px;
+  border-radius:4px;
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1rem;
+}
+.flow-result.fn{background:rgba(26,35,50,0.06);color:var(--falcon);border-left:3px solid var(--falcon);}
+.flow-result.fp{background:rgba(61,26,8,0.06);color:var(--parrot);border-left:3px solid var(--parrot);}
+
+/* ── MODERN APPLICATION ── */
+.modern-split{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:24px;margin:40px 0;
+}
+.modern-card{
+  padding:32px;border:1px solid var(--border);
+  background:var(--white);
+}
+.modern-card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:700;
+  margin-bottom:20px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+.modern-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.modern-list li{
+  font-family:'Crimson Pro',serif;
+  font-size:0.98rem;line-height:1.55;
+  color:var(--ash);
+  display:flex;gap:10px;align-items:flex-start;
+}
+.modern-list li .tag{
+  font-size:0.65rem;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:2px 7px;border-radius:2px;
+  flex-shrink:0;margin-top:3px;
+}
+.tag-lose{background:rgba(122,59,30,0.1);color:var(--rust);}
+.tag-keep{background:rgba(61,90,71,0.1);color:var(--sage);}
+
+/* ── THE PARADOX ── */
+.paradox-box{
+  text-align:center;padding:64px 40px;
+  background:linear-gradient(135deg,var(--parchment),var(--paper));
+  border:1px solid var(--border);
+  margin:48px 0;
+  position:relative;overflow:hidden;
+}
+.paradox-box::before,.paradox-box::after{
+  content:'';
+  position:absolute;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(139,105,20,0.06),transparent 70%);
+  pointer-events:none;
+}
+.paradox-box::before{top:-100px;left:-100px;}
+.paradox-box::after{bottom:-100px;right:-100px;}
+.paradox-line{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  line-height:1.7;color:var(--ink);
+  margin-bottom:12px;
+  position:relative;z-index:1;
+}
+.paradox-line.em{
+  font-weight:700;font-style:normal;
+  font-size:clamp(1.3rem,3vw,2rem);
+  color:var(--gold);
+}
+.paradox-divider{
+  width:48px;height:1px;
+  background:var(--gold);
+  margin:28px auto;
+}
+
+/* ── QUESTION PROMPT ── */
+.reflection{
+  background:var(--ink);
+  padding:64px 40px;
+  text-align:center;
+  margin:0;
+}
+.reflection-q{
+  font-family:'Playfair Display',serif;
+  font-style:italic;
+  font-size:clamp(1.3rem,3vw,2rem);
+  color:var(--parchment);
+  max-width:600px;margin:0 auto 24px;
+  line-height:1.6;
+}
+.reflection-sub{
+  font-family:'Crimson Pro',serif;
+  font-size:1rem;color:rgba(237,229,212,0.5);
+}
+
+/* ── KEY LESSONS ── */
+.lessons{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:0;
+  border:1px solid var(--border);
+  overflow:hidden;
+  margin:40px 0;
+}
+.lesson{
+  padding:32px 28px;
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  transition:background 0.2s;
+}
+.lesson:hover{background:var(--parchment);}
+.lesson-num{
+  font-family:'Playfair Display',serif;
+  font-size:2.5rem;font-weight:900;
+  color:var(--gold);opacity:0.3;
+  line-height:1;margin-bottom:8px;
+}
+.lesson h4{
+  font-family:'Playfair Display',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--ink);margin-bottom:8px;
+}
+.lesson p{
+  font-size:0.88rem;color:var(--muted);
+  line-height:1.6;margin:0;
+}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--ink);
+  color:rgba(237,229,212,0.5);
+  padding:48px 40px;
+  text-align:center;
+}
+.footer-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:700;
+  color:var(--parchment);margin-bottom:8px;
+}
+.footer-sub{
+  font-family:'Crimson Pro',serif;
+  font-style:italic;font-size:1rem;
+  margin-bottom:32px;
+}
+.footer-line{
+  width:48px;height:1px;
+  background:var(--gold);margin:0 auto 24px;
+}
+.footer-note{font-family:'Crimson Pro',serif;font-size:0.88rem;}
+
+/* ── SCROLL REVEAL ── */
+.reveal{
+  opacity:0;transform:translateY(28px);
+  transition:opacity 0.7s ease,transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@keyframes fadeIn{
+  from{opacity:0;}to{opacity:1;}
+}
+@keyframes scrollPulse{
+  0%,100%{opacity:0.3;transform:scaleY(1);}
+  50%{opacity:1;transform:scaleY(1.1);}
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:720px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;}
+  .hero{padding:100px 24px 60px;}
+  section{padding:60px 24px;}
+  .duality{grid-template-columns:1fr;}
+  .duality-side.parrot{border-left:none;border-top:1px solid rgba(255,255,255,0.06);}
+  .modern-split{grid-template-columns:1fr;}
+  .comparison-header,.comparison-row{grid-template-columns:1fr;}
+  .comp-cell:first-child{border-right:none;border-bottom:1px solid var(--border);}
+  .science-box{padding:32px 24px;}
+  .paradox-box{padding:48px 24px;}
+  .lessons{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <a class="nav-brand" href="#">🦅 The Falcon & The Parrot</a>
+  <div class="nav-links">
+    <a href="#metaphor">The Metaphor</a>
+    <a href="#philosophy">Philosophy</a>
+    <a href="#neuroscience">Science</a>
+    <a href="#modern">Modern Life</a>
+    <a href="#lessons">Key Lessons</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-birds">🦅🦜</div>
+  <div class="hero-eyebrow">A Philosophy of Silence & Freedom</div>
+  <h1 class="hero-title">The <em>Falcon</em><br>& The Parrot</h1>
+  <p class="hero-subtitle">Why silence is not emptiness — it is the fullness that needs no proof</p>
+  <p class="hero-opening">Two birds. One free, one caged. The difference between them is not intelligence, not beauty, not strength — it is the discipline of what they choose to release into the world.</p>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Read on</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ══ THE CORE METAPHOR ══ -->
+<section id="metaphor">
+  <div class="section-label reveal">The Core Metaphor</div>
+  <h2 class="reveal">Two birds. One principle.</h2>
+  <p class="reveal">The metaphor is deceptively simple on the surface. But the philosophy it contains has been independently discovered by Stoic philosophers, Taoist sages, Sufi poets, and Sun Tzu military strategists across 2,500 years of human thought.</p>
+  <p class="reveal">The most devastating insight: <strong>the parrot caged itself.</strong> Nobody punished it for existing. It built its own prison, one word at a time.</p>
+</section>
+
+<section class="wide full">
+  <div class="duality reveal">
+    <div class="duality-side falcon">
+      <span class="duality-bird">🦅</span>
+      <div class="duality-title">The Falcon</div>
+      <div class="duality-tagline">Quiet. Purposeful. Uncontainable.</div>
+      <ul class="duality-traits">
+        <li>Speaks only when the moment demands it</li>
+        <li>Actions carry the message — not words</li>
+        <li>Earns trust through consistent restraint</li>
+        <li>Holds its thoughts long enough to refine them</li>
+        <li>Comfortable in silence — with others and itself</li>
+        <li>Reveals only what serves the moment</li>
+        <li>Identity anchored internally — not outsourced</li>
+        <li>Moves on its own terms</li>
+      </ul>
+    </div>
+    <div class="duality-side parrot">
+      <span class="duality-bird">🦜</span>
+      <div class="duality-title">The Parrot</div>
+      <div class="duality-tagline">Loud. Performing. Self-contained.</div>
+      <ul class="duality-traits">
+        <li>Shares every opinion in every room</li>
+        <li>Reveals the hand before it needs to be played</li>
+        <li>Fills silence because silence feels dangerous</li>
+        <li>Tells people what it's planning before doing it</li>
+        <li>Trades information as currency</li>
+        <li>Performs intelligence through constant talking</li>
+        <li>Identity dependent on external reactions</li>
+        <li>Managed by those who can read it</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="pullquote reveal">
+    <p>The parrot talks to feel free — and creates its own cage. The falcon accepts restraint — and earns true freedom. Freedom comes not from having no limits, but from choosing your own limits before the world chooses them for you.</p>
+  </div>
+</section>
+
+<div class="divider reveal"><div class="divider-line"></div><div class="divider-glyph">✦</div><div class="divider-line"></div></div>
+
+<!-- ══ THE MECHANISM ══ -->
+<section>
+  <div class="section-label reveal">How The Cage Forms</div>
+  <h2 class="reveal">The mechanism — traced step by step</h2>
+  <p class="reveal">The cage doesn't appear overnight. It builds gradually, one indiscriminate word at a time. Understanding the mechanism is how you choose which path to walk.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:40px;">
+    <div class="reveal reveal-delay-1">
+      <div class="flow-title" style="color:var(--falcon)">🦅 The Falcon's Path</div>
+      <div class="flow">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-num fn">1</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Observes and builds internally</strong><br>Develops the idea fully before speaking</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn">2</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Becomes unreadable</strong><br>Others cannot easily map or predict them</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn">3</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Cannot be easily manipulated</strong><br>No exposed pressure points to exploit</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn">4</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Moves on own terms</strong><br>Actions surprise, options remain open</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fn">5</div>
+            <div class="flow-text"><strong>When they speak — rooms listen</strong><br>Scarcity of words creates weight</div>
+          </div>
+        </div>
+        <div class="flow-result fn">Result: True freedom of movement</div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="flow-title" style="color:var(--parrot)">🦜 The Parrot's Path</div>
+      <div class="flow">
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-num fp">1</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Speaks before thinking fully</strong><br>Every thought exits immediately</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fp">2</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Becomes predictable</strong><br>Others learn their patterns, fears, desires</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fp">3</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Predictable people get managed</strong><br>Others know how to influence them</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fp">4</div>
+            <div class="flow-arrow"></div>
+            <div class="flow-text"><strong>Managed people lose autonomy</strong><br>Reactions replace genuine choices</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num fp">5</div>
+            <div class="flow-text"><strong>When they speak — rooms wait</strong><br>Abundance of words creates noise</div>
+          </div>
+        </div>
+        <div class="flow-result fp">Result: A cage built word by word</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal"><div class="divider-line"></div><div class="divider-glyph">✦</div><div class="divider-line"></div></div>
+
+<!-- ══ PHILOSOPHY ══ -->
+<section id="philosophy">
+  <div class="section-label reveal">Ancient Wisdom</div>
+  <h2 class="reveal">Five philosophical traditions. One conclusion.</h2>
+  <p class="reveal">What is remarkable about this metaphor is that it was not invented once — it was discovered independently by great minds across centuries and cultures, each arriving at the same truth through different paths.</p>
+
+  <div class="phil-grid">
+    <div class="phil-card reveal reveal-delay-1">
+      <div class="phil-tradition">Stoicism · 300 BC</div>
+      <h3>The Sovereign Mind</h3>
+      <div class="phil-quote">"You have power over your mind, not outside events." — Marcus Aurelius</div>
+      <p>The Stoics identified undisciplined speech as one of the primary ways humans surrender inner sovereignty. Every unnecessary word is a small transfer of power to the outside world. The falcon holds its power inward. The parrot gives it away with every sentence.</p>
+    </div>
+    <div class="phil-card reveal reveal-delay-2">
+      <div class="phil-tradition">Taoism · 400 BC</div>
+      <h3>Wu Wei — The Power of Non-Action</h3>
+      <div class="phil-quote">"Those who know do not speak. Those who speak do not know." — Lao Tzu</div>
+      <p>This is not anti-communication. It is anti-noise. The Taoist falcon understands that the universe's most powerful forces — gravity, water, time — operate in complete silence. The real thing resists easy description. If it photographs perfectly, question it.</p>
+    </div>
+    <div class="phil-card reveal reveal-delay-3">
+      <div class="phil-tradition">Sun Tzu · The Art of War</div>
+      <h3>Strategic Silence</h3>
+      <div class="phil-quote">"Let your plans be dark as night, and when you move, fall like a thunderbolt."</div>
+      <p>The parrot reveals itself constantly — its fears, its plans, its weaknesses, its desires. The falcon reveals nothing until the moment of action. Information is power only while you hold it. The moment you release it, the power transfers to whoever receives it.</p>
+    </div>
+    <div class="phil-card reveal reveal-delay-1">
+      <div class="phil-tradition">Sufism · Rumi's Masnavi</div>
+      <h3>The Caged Parrot</h3>
+      <div class="phil-quote">The parrot repeats what it has learned. The falcon understands what it has lived.</div>
+      <p>In Sufi tradition, the parrot represents the ego-self — endlessly chattering, performing, repeating mimicry as wisdom. The falcon is the trained soul — disciplined, purposeful, returning when called, free when released. One makes noise about truth. The other embodies it.</p>
+    </div>
+    <div class="phil-card reveal reveal-delay-2">
+      <div class="phil-tradition">Aristotle · Virtue Ethics</div>
+      <h3>The Golden Mean of Speech</h3>
+      <div class="phil-quote">Virtue is what you do when nobody is watching. Character is built in private.</div>
+      <p>Aristotle framed this as temperance in speech — the golden mean between complete withdrawal and compulsive talking. Crucially, the falcon doesn't stay quiet because it is naturally quiet. It has trained the discipline of restraint until restraint became character.</p>
+    </div>
+    <div class="phil-card reveal reveal-delay-3">
+      <div class="phil-tradition">Viktor Frankl · 20th Century</div>
+      <h3>The Last Human Freedom</h3>
+      <div class="phil-quote">"Between stimulus and response there is a space. In that space is your power."</div>
+      <p>Frankl observed in the most extreme conditions imaginable that the last human freedom is choosing your response to any situation. The parrot has surrendered that freedom to every passing impulse to speak. The falcon has protected it — and that protection is everything.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider reveal"><div class="divider-line"></div><div class="divider-glyph">✦</div><div class="divider-line"></div></div>
+
+<!-- ══ NEUROSCIENCE ══ -->
+<section id="neuroscience" class="wide full">
+  <div class="science-box reveal">
+    <div style="max-width:760px;margin:0 auto;">
+      <div class="section-label">Modern Neuroscience</div>
+      <h2 style="color:var(--parchment)">Why announcing kills achievement — the science</h2>
+      <p>This is not merely ancient wisdom. Modern research has confirmed exactly why the parrot behaviour undermines the very success it is performing.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:32px 0;">
+        <div>
+          <h3 style="color:var(--gold-light);margin-top:0;">The Substitution Effect</h3>
+          <p>Research by Peter Gollwitzer at NYU found that when you announce a goal and receive social acknowledgement, your brain registers a <span class="science-highlight">dopamine reward identical to actually achieving it.</span> You get the feeling of winning without doing the work. Motivation to complete the actual task then measurably drops.</p>
+          <p>The announcement eats the achievement before it happens.</p>
+        </div>
+        <div>
+          <h3 style="color:var(--gold-light);margin-top:0;">The Identity Loop</h3>
+          <p>When you perform success publicly before achieving it, your brain begins to associate your identity with the <span class="science-highlight">performance of success</span> rather than success itself. Over time, the performance becomes the goal. You stop building what you want to build — and start building what the audience wants to see.</p>
+          <p>The cage is not visible. But it is real.</p>
+        </div>
+      </div>
+
+      <div style="background:rgba(139,105,20,0.12);border:1px solid rgba(196,154,42,0.2);padding:24px 28px;margin-top:16px;">
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:var(--parchment);margin-bottom:8px;">The silent builder's advantage</div>
+        <p style="margin:0;">Every hour not spent performing success is an hour spent building it. Silence is not the absence of strategy — it is the strategy itself. The compound interest of unannounced effort accumulates invisibly, then becomes undeniable.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MODERN LIFE ══ -->
+<section id="modern">
+  <div class="section-label reveal">In the Age of Social Media</div>
+  <h2 class="reveal">The most dangerous cage ever designed</h2>
+  <p class="reveal">Social media has created an entire infrastructure specifically engineered to turn falcons into parrots. It rewards announcement over achievement, visibility over depth, performance over reality.</p>
+  <p class="reveal">The platform does not benefit from you quietly building something extraordinary. It benefits from you documenting every step of building it. Your attention is the product. Your life is the content.</p>
+
+  <div class="modern-split">
+    <div class="modern-card reveal reveal-delay-1">
+      <div class="modern-card-title" style="color:var(--parrot)">🦜 Person A — The Loud Achiever</div>
+      <ul class="modern-list">
+        <li><span class="tag tag-lose">Loses</span> Announces the goal before pursuing it</li>
+        <li><span class="tag tag-lose">Loses</span> Documents the journey instead of living it</li>
+        <li><span class="tag tag-lose">Loses</span> Posts the gym selfie instead of getting the results</li>
+        <li><span class="tag tag-lose">Loses</span> Shares the business idea instead of building it</li>
+        <li><span class="tag tag-lose">Loses</span> Needs the audience — validation is the fuel</li>
+        <li><span class="tag tag-lose">Loses</span> Next action chosen by what got best reaction</li>
+        <li><span class="tag tag-lose">Loses</span> Mystery, leverage, options, inner sovereignty</li>
+      </ul>
+    </div>
+    <div class="modern-card reveal reveal-delay-2">
+      <div class="modern-card-title" style="color:var(--falcon)">🦅 Person B — The Quiet Builder</div>
+      <ul class="modern-list">
+        <li><span class="tag tag-keep">Keeps</span> Pursues the goal before anyone knows about it</li>
+        <li><span class="tag tag-keep">Keeps</span> Lives the journey — shares the completed work</li>
+        <li><span class="tag tag-keep">Keeps</span> Gets the results — they speak for themselves</li>
+        <li><span class="tag tag-keep">Keeps</span> Builds the business — announces its existence</li>
+        <li><span class="tag tag-keep">Keeps</span> Needs the outcome — vision is the fuel</li>
+        <li><span class="tag tag-keep">Keeps</span> Next action chosen by what serves the vision</li>
+        <li><span class="tag tag-keep">Keeps</span> Mystery, optionality, authority, inner sovereignty</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="comparison reveal" style="margin-top:40px;">
+    <div class="comparison-header">
+      <div class="comp-head f">🦅 What Person A Actually Signals</div>
+      <div class="comp-head p">🦜 What Person B Actually Signals</div>
+    </div>
+    <div class="comparison-row">
+      <div class="comp-cell"><em>Intended:</em> "I am successful"</div>
+      <div class="comp-cell"><em>Intended:</em> Nothing — they don't need to signal</div>
+    </div>
+    <div class="comparison-row">
+      <div class="comp-cell"><em>Actual:</em> "I need you to know I am successful" — which reveals the need, not the success</div>
+      <div class="comp-cell"><em>Actual:</em> This person doesn't require your validation to exist — which is the most powerful signal of all</div>
+    </div>
+    <div class="comparison-row">
+      <div class="comp-cell">True confidence never needs a witness. The compulsion to broadcast achievement is precisely what reveals insecurity disguised as confidence.</div>
+      <div class="comp-cell">Silence, when chosen rather than forced, projects more presence than any amount of noise. People fill it with their own assumptions — often more powerful than reality.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PARADOX ══ -->
+<section class="wide full">
+  <div class="paradox-box reveal">
+    <div class="paradox-line">The person who can say anything...</div>
+    <div class="paradox-line">says too much...</div>
+    <div class="paradox-line">and becomes trapped.</div>
+    <div class="paradox-divider"></div>
+    <div class="paradox-line">The person who disciplines what they say...</div>
+    <div class="paradox-line">says only what matters...</div>
+    <div class="paradox-line em">and cannot be trapped.</div>
+    <div class="paradox-divider"></div>
+    <div class="paradox-line" style="font-size:1rem;color:var(--muted);">The parrot performs freedom. The falcon lives it.</div>
+  </div>
+</section>
+
+<!-- ══ THE HONEST WARNING ══ -->
+<section>
+  <div class="section-label reveal">An Honest Warning</div>
+  <h2 class="reveal">There is a false falcon</h2>
+  <p class="reveal">It would be dishonest not to name this clearly. Not all silence is the falcon's silence.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:40px 0;">
+    <div class="reveal reveal-delay-1" style="padding:32px;background:rgba(26,35,50,0.04);border:1px solid rgba(26,35,50,0.15);">
+      <h3 style="color:var(--falcon);margin-top:0;">🦅 The True Falcon</h3>
+      <p style="margin:0;">"I am not sharing this because I do not need external validation. I protect my energy, my focus, and my options. I will let the work speak when it is ready."</p>
+      <p style="margin-top:16px;font-family:'Crimson Pro',serif;font-style:italic;color:var(--sage);">This is power.</p>
+    </div>
+    <div class="reveal reveal-delay-2" style="padding:32px;background:rgba(122,59,30,0.04);border:1px solid rgba(122,59,30,0.15);">
+      <h3 style="color:var(--rust);margin-top:0;">🕊️ The Hiding Bird</h3>
+      <p style="margin:0;">"I am not sharing this because I am terrified of being judged if it doesn't work out. I stay silent because the alternative is exposure."</p>
+      <p style="margin-top:16px;font-family:'Crimson Pro',serif;font-style:italic;color:var(--rust);">This is also a cage. A different bird.</p>
+    </div>
+  </div>
+
+  <div class="pullquote reveal">
+    <p>Ask yourself honestly: Am I quiet because I am building — or because I am hiding? One is the most powerful posture you can adopt. The other is its own kind of prison, invisible and self-imposed.</p>
+  </div>
+</section>
+
+<!-- ══ REFLECTION ══ -->
+<section class="wide full">
+  <div class="reflection">
+    <div class="reflection-q reveal">"Think of the people in your life who command the most genuine respect. Are they the loudest people in the room — or the ones whose words, when they come, land with the most weight?"</div>
+    <div class="reflection-sub reveal">The answer is the lesson.</div>
+  </div>
+</section>
+
+<!-- ══ KEY LESSONS ══ -->
+<section id="lessons">
+  <div class="section-label reveal">Key Lessons</div>
+  <h2 class="reveal">What to carry forward</h2>
+
+  <div class="lessons reveal">
+    <div class="lesson">
+      <div class="lesson-num">01</div>
+      <h4>Scarcity creates weight</h4>
+      <p>Words become valuable when they are rare. The person who speaks deliberately is heard differently than the person who speaks constantly. Train the discipline of restraint.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">02</div>
+      <h4>Announcing eats achieving</h4>
+      <p>Your brain rewards the announcement with the same dopamine as the achievement. Keep your goals private until they are real. Let results be the announcement.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">03</div>
+      <h4>Identity follows attention</h4>
+      <p>If you perform success publicly before achieving it, your identity shifts toward performance. Guard where you place your attention — it shapes who you become.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">04</div>
+      <h4>Silence is a strategy</h4>
+      <p>The unspoken plan can still change. The stated position becomes a commitment. Commitments remove options. Options are power. Hold them as long as possible.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">05</div>
+      <h4>Restraint signals trustworthiness</h4>
+      <p>The person who doesn't gossip about others won't gossip about you. Discipline in speech signals discipline in character. It builds the deepest kind of trust.</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">06</div>
+      <h4>Know why you are silent</h4>
+      <p>Silence from power and silence from fear look identical from the outside. Only you know which one you are living. One sets you free. The other is its own cage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-title">🦅 The Falcon & The Parrot</div>
+  <div class="footer-sub">A Philosophy of Silence, Freedom & Discipline</div>
+  <div class="footer-line"></div>
+  <div class="footer-note">Drawing from Stoicism · Taoism · Sufism · Sun Tzu · Aristotle · Viktor Frankl · Modern Neuroscience</div>
+  <div style="margin-top:16px;font-family:'Crimson Pro',serif;font-style:italic;font-size:1rem;color:rgba(237,229,212,0.3);">"The falcon doesn't need the sky to know it can fly. It just flies."</div>
+</footer>
+
+</div><!-- end content -->
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = (scrollTop / docHeight) * 100;
+  document.getElementById('progress').style.width = progress + '%';
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+revealEls.forEach(el => observer.observe(el));
+
+// Nav shrink on scroll
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.padding = window.scrollY > 60 ? '12px 40px' : '18px 40px';
+});
+</script>
+</body>
+</html>
